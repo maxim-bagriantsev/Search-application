@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import s from './App.module.css' ;
+import s from './App.module.css';
 
 const App = (props) => {
     const arr = props.people
@@ -8,7 +8,6 @@ const App = (props) => {
     const [users, setUsers] = useState([]);
 
     const [filterSalary, setFilterSalary] = useState('')
-    const [salary, setSalary] = useState([]);
 
     const handleChangeName = e => {
         setFilterName(e.target.value);
@@ -20,22 +19,12 @@ const App = (props) => {
 
 
     useEffect(() => {
-        if (!isNaN(filterName)) {
-            const results = arr.filter((person) => {
-                    return person.name.toLowerCase().includes(filterName.toLowerCase())
-                }
-            );
-            setUsers(results);
+        const result = arr.filter((person) => {
+            return person.name.toLowerCase().includes(filterName.toLowerCase()) && person.salary.toString().includes(filterSalary); // МОЖНО И ТАК НАПИСАТЬ - В НАШЕМ СЛУЧАЕ БУДЕТ РАБОТАТЬ
+        })
+        setUsers(result);
 
-        }
-        else {
-            const results = arr.filter((person) => {
-                    return person.salary.includes(filterSalary.toLowerCase())
-                }
-            );
-            setSalary(results);
-        }
-    }, [filterName], [filterSalary]);
+    }, [filterName, filterSalary]);
 
     return (
         <div>
@@ -46,7 +35,7 @@ const App = (props) => {
                        placeholder='Search for surname'/>
                 <ul>
                     {users.map(item => (
-                        <li key={item.id}>{item.name}</li>
+                        <li key={item.id}>{item.name} </li>
                     ))}
                 </ul>
             </form>
@@ -56,8 +45,8 @@ const App = (props) => {
                        onChange={handleChangeSalary}
                        placeholder='Search for salary'/>
                 <ul>
-                    {salary.map(item => (
-                        <li key={item.id}>{item.salary}</li>
+                    {users.map(item => (
+                        <li key={item.id}>{item.salary} </li>
                     ))}
                 </ul>
             </form>
