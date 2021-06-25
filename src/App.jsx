@@ -22,12 +22,14 @@ const App = (props) => {
     };
 
     useEffect(() => {
-        const result = arr.filter((person) => {
-            return person.name.toLowerCase().startsWith(filterName.toLowerCase()) && person.salary.toString().startsWith(filterSalary) && person.city.toLowerCase().startsWith(filterCity.toLowerCase()); // МОЖНО И ТАК НАПИСАТЬ - В НАШЕМ СЛУЧАЕ БУДЕТ РАБОТАТЬ
-        })
-        setUsers(result);
 
-    }, [filterName, filterSalary, filterCity]);
+        const res = arr.filter(person => person.name.toLowerCase().startsWith(filterName.toLowerCase()))
+            .filter(person => person.salary.toString().startsWith(filterSalary))
+            .filter(person => person.city.toLowerCase().startsWith(filterCity.toLowerCase()))
+
+        setUsers(res);
+
+    }, [filterName, filterSalary, filterCity, arr]);
 
     return (
         <div>
@@ -36,30 +38,19 @@ const App = (props) => {
                        value={filterName}
                        onChange={handleChangeName}
                        placeholder='Search for surname'/>
-                <ul>
-                    {users.map(item => (
-                        <li key={item.id}>{item.name} </li>
-                    ))}
-                </ul>
-            </form>
-            <form>
+
                 <input type='text'
                        value={filterSalary}
                        onChange={handleChangeSalary}
                        placeholder='Search for salary'/>
-                <ul>
-                    {users.map(item => (
-                        <li key={item.id}>{item.salary} </li>
-                    ))}
-                </ul>
-            </form><form>
+
                 <input type='text'
                        value={filterCity}
                        onChange={handleChangeCity}
                        placeholder='Search for city'/>
                 <ul>
                     {users.map(item => (
-                        <li key={item.id}>{item.city} </li>
+                        <li key={item.id}>{`ИМЯ: ${item.name}; ЗАРПЛАТА: ${item.salary}; ГОРОД: ${item.city}`} </li>
                     ))}
                 </ul>
             </form>
